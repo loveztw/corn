@@ -1,0 +1,20 @@
+<div style="background: #D1EEEE; padding: 10px; boarder: 1px solid red; margin-top: 0;">
+	<p> Dear Ray </p>
+
+	{% if request.session.userinfo.curproid == '' %}
+		<p> Please create your first project. Or contact project administrator and join a project.</p>
+	{% else %}
+		<p> You can manage your project now.</p>	
+	{% endif %}
+</div>
+
+<script>
+$(function(){ 
+	function sidebarClick() {
+		$('.active').removeClass('active');
+		$('#welcome').addClass('active');		
+	}
+	
+	sidebarClick();
+});
+</script>

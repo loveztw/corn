@@ -1,0 +1,42 @@
+<style type="text/css">
+	.form-add {
+	  max-width: 630px;
+	  padding: 15px;
+	}
+</style>
+
+<h1 class="page-header" style="margin-top: 0;">User Add</h1>
+
+      <form class="form-add" action="/action/useradd/" method="post">
+      	{% csrf_token %}
+        <div class="form-group">
+	        <label for="inputUserName" class="form-label">Mail Address</label>
+	        <input type="text" id="inputUserName" name="inputUserName" class="form-control" required autofocus>
+	    </div>
+	    		
+        <div class="form-group">
+        	<label for="inputUserRole" class="form-label">User Role</label>
+        	<select class="form-control" id="inputUserRole" name="inputUserRole">
+        		{% for item in rolelist %}
+                	<option value ="{{ item.roleid }}">{{ item.rolename }}</option>
+                {% endfor %}
+			</select>
+        </div>
+				
+		<div class="submit">
+        	<button class="btn btn-primary" type="submit">Submit</button>
+        	<button class="btn btn-primary" onclick="javascript:history.back(-1);">Cancel</button>
+        </div>
+      </form>
+      
+<script>
+$(function(){ 
+	function sidebarClick() {
+		$('.active').removeClass('active');
+		$('#user_list').addClass('active');		
+	}
+	
+	sidebarClick();
+});
+</script>      
+      

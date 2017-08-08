@@ -1,0 +1,54 @@
+
+    {% load myfilter %}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Wechat Management</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-left">
+            <li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					Projects
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					{% for proj in request.session.userinfo.projectinfos|getProjectList %}
+						<li value="{{ proj.appid }}"><a href="#">{{ proj.projectname }}</a></li>
+					{% endfor %}
+					<li class="divider"></li>
+					<li><a href="/project/">Create Project</a></li>
+				</ul>
+			</li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          	<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+					{% if request.session.userinfo %}
+						Welcome, {{ request.session.userinfo.username }}
+					{% endif %}
+					<b class="caret"></b>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="/user/profile">Profile</a></li>
+					<li class="divider"></li>
+					<li><a href="/action/logout/">Logout</a></li>
+				</ul>
+			</li>
+          </ul>
+        </div>
+      </div>      
+    </nav>
+	
+	<div style="padding-top: 50px; width: 100%; position: fixed; z-index: 1000;">
+	  <ol class="breadcrumb" >
+	  	<li><a href="#">project1</a></li>
+	  	<li class="active">Menu</li>
+	  </ol>
+	</div>

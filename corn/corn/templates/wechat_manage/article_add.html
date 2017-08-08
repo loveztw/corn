@@ -1,0 +1,74 @@
+<style type="text/css">
+	.form-add {
+	  max-width: 630px;
+	  padding: 15px;
+	}
+
+	    .sub_title {
+		  height: 50px;
+		  margin: 0 auto;
+		  background-color: #f5f5f5;
+		}
+		
+		.a-upload {
+		    width: 100%;
+		    height: 100%;
+    padding: 15px 10px;
+    position: relative;
+    cursor: pointer;
+    color: #888;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1
+}
+
+.a-upload  input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;    
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+
+.a-upload:hover {
+    color: #444;
+    background: #eee;
+    border-color: #ccc;
+    text-decoration: none
+}
+</style>
+
+<h1 class="page-header" style="margin-top: 0;">Article Add</h1>
+
+<form class="form-add">
+	<div class="sub_title">
+		<a href="/dashboard/picture/add" class="a-upload">
+    		<input type="file" name="" id="">
+    		<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+    		Upload a picture to the top of your article
+		</a>
+	</div>
+	
+	
+    <div class="form-group" style="padding-top: 20px;">
+        <input type="text" class="form-control" placeholder="Please input Title for the article" required autofocus>
+    </div>
+</form>
+      
+<script>
+$(function(){ 
+	function sidebarClick() {
+		$('.active').removeClass('active');
+		$('#article').addClass('active');		
+	}
+	
+	sidebarClick();
+});
+</script>      
+      

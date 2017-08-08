@@ -1,0 +1,58 @@
+<style type="text/css">
+	.form-add {
+	  max-width: 630px;
+	  padding: 15px;
+	}
+</style>
+
+<h1 class="page-header" style="margin-top: 0;">Menu Add</h1>
+
+      <form class="form-add">
+        <div class="form-group">
+	        <label for="inputMenuName" class="form-label">Menu Name</label>
+	        <input type="text" id="inputMenuName" class="form-control" required autofocus>
+	    </div>
+	    
+        <div class="form-group">
+        	<label for="inputMenuType" class="form-label">Menu Type</label>
+        	<select class="form-control" id="inputMenuType">
+               <option value ="click">click</option>
+               <option value ="view">view</option>
+               <option value ="miniprogram">miniprogram</option>
+			</select>
+        </div>
+        
+        <div class="form-group">
+        	<label for="inputMenuParent" class="form-label">Menu Parent</label>
+        	<select class="form-control" id="inputMenuParent">
+			  <option>1</option>
+			  <option>2</option>
+			</select>
+        </div>
+      
+        <div class="form-group">
+	        <label for="inputMenuKey" class="form-label">Menu Key</label>
+	        <input type="text" id="inputMenuKey" class="form-control">
+	    </div>  
+
+        <div class="form-group">
+	        <label for="inputMenuUrl" class="form-label">Menu Url</label>
+	        <input type="text" id="inputMenuUrl" class="form-control">
+	    </div>  
+		
+		<div class="submit">
+        	<button class="btn btn-primary" type="submit">Submit</button>
+        	<button class="btn btn-primary" type="submit">Cancel</button>
+        </div>
+      </form>
+      
+<script>
+$(function(){ 
+	function sidebarClick() {
+		$('.active').removeClass('active');
+		$('#menu_list').addClass('active');		
+	}
+	
+	sidebarClick();
+});
+</script>      

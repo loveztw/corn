@@ -1,0 +1,68 @@
+<style type="text/css">
+	.form-add {
+	  max-width: 630px;
+	  padding: 15px;
+	}
+</style>
+
+<h1 class="page-header" style="margin-top: 0;">Role Add</h1>
+
+      <form class="form-add" action="/action/createrole/" method="post">
+      {% csrf_token %}
+        <div class="form-group">
+	        <label for="inputRoleName" class="form-label">Role Name</label>
+	        <input type="text" id="inputRoleName" name="inputRoleName" class="form-control" required autofocus>
+	    </div>
+
+        <div class="checkbox">
+		  <label>
+		    <input type="checkbox" value="overview" name="check_box_list">
+		    Overview
+		  </label>
+		</div>
+
+        <div class="checkbox">
+		  <label>
+		    <input type="checkbox" value="role" name="check_box_list">
+		    Role Management
+		  </label>
+		</div>
+		
+        <div class="checkbox">
+		  <label>
+		    <input type="checkbox" value="user" name="check_box_list">
+		    User Management
+		  </label>
+		</div>		
+	    
+        <div class="checkbox">
+		  <label>
+		    <input type="checkbox" value="menu" name="check_box_list">
+		    Menu Edit
+		  </label>
+		</div>
+        
+        <div class="checkbox">
+		  <label>
+		    <input type="checkbox" value="article" name="check_box_list">
+		    Article
+		  </label>
+		</div>
+				
+		<div class="submit">
+        	<button class="btn btn-primary" type="submit">Submit</button>
+        	<button class="btn btn-primary" onclick="javascript:history.back(-1);">Cancel</button>
+        </div>
+      </form>
+      
+<script>
+$(function(){ 
+	function sidebarClick() {
+		$('.active').removeClass('active');
+		$('#role_list').addClass('active');		
+	}
+	
+	sidebarClick();
+});
+</script>      
+      

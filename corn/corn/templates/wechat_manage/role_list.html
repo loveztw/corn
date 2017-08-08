@@ -1,0 +1,79 @@
+
+<h1 class="page-header" style="margin-top: 0;">Role List</h1>
+<a class="btn btn-link" href="/dashboard/role/add">
+	<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+	Add Role
+</a>
+
+
+
+<form action="/action/deleterole/" method="post">
+	{% csrf_token %}
+	<div class="table-responsive">
+	  <table class="table table-striped">
+	    <thead>
+	      <tr>
+	        <th>#</th>
+	        <th>Role Name</th>
+	        <th>Role Ability</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	    	{% for item in rolelist %}
+	    		<tr>
+	    			<td><input type="checkbox" value="{{ item.roleid }},{{ item.updatedate }}" name="checkItem" /></td>
+	      			<td>{{ item.no }}</td>
+	      			<td>{{ item.rolename }}</td>
+	      			<td>{{ item.ability }}</td>
+	      		</tr>
+	    	{% endfor %}
+	    </tbody>
+	  </table>
+	</div>
+	
+	<div class="submit">
+      <button class="btn btn-primary" type="submit">Delete</button>
+    </div>
+</form>
+<script>  
+$(function(){  
+    function initTableCheckbox() {  
+        var $thr = $('table thead tr');  
+        var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" /></th>');  
+        $thr.prepend($checkAllTh);  
+        var $checkAll = $thr.find('input');  
+        $checkAll.click(function(event){  
+            $tbr.find('input').prop('checked',$(this).prop('checked'));  
+            if ($(this).prop('checked')) {  
+                $tbr.find('input').parent().parent().addClass('warning');  
+            } else{  
+                $tbr.find('input').parent().parent().removeClass('warning');  
+            }  
+            event.stopPropagation();  
+        });  
+        $checkAllTh.click(function(){  
+            $(this).find('input').click();  
+        });  
+        var $tbr = $('table tbody tr');  
+        //var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /></td>');  
+        //$tbr.prepend($checkItemTd);  
+        $tbr.find('input').click(function(event){  
+            $(this).parent().parent().toggleClass('warning');  
+            $checkAll.prop('checked',$tbr.find('input:checked').length == $tbr.length ? true : false);  
+            event.stopPropagation();  
+        });  
+        $tbr.click(function(){  
+            $(this).find('input').click();  
+        });  
+    }  
+    
+	function sidebarClick() {
+		$('.active').removeClass('active');
+		$('#role_list').addClass('active');		
+	}
+	
+	sidebarClick();
+    
+    initTableCheckbox();  
+});  
+</script>

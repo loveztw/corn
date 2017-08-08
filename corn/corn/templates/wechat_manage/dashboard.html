@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <!-- link rel="icon" href="ico/favicon.ico"> -->
+
+    <title>Dashboard</title>
+
+    <!-- Custom styles for this template -->
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+	   	.nav-sidebar > .active > a,
+		.nav-sidebar > .active > a:hover,
+		.nav-sidebar > .active > a:focus {
+		  color: #fff;
+		  background-color: #428bca;
+		}
+    
+   	  .sidebar {
+   	    position: fixed;
+    	top: 86px;
+    	bottom: 0;
+	    z-index: 1000;
+	    display: block;
+	    padding: 20px;
+	    background-color: #f5f5f5;
+	    border-right: 3px solid #fff;
+	    border-top: 3px solid #fff;
+	  }
+	  
+		.nav-sidebar {
+		  margin-right: -21px; /* 20px padding + 1px border */
+		  margin-bottom: 20px;
+		  margin-left: -20px;
+		}
+		
+		.nav-sidebar > li > a {
+		  padding-right: 20px;
+		  padding-left: 20px;
+		}
+    
+    	.main {
+    		top: 90px;
+    	}
+  	</style>
+  </head>
+
+  <body>
+  	{% include "wechat_manage/navbar.html" %} 
+  	{% load myfilter %}
+  	<div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+        	  <ul class="nav nav-sidebar">
+        	  	<li id="welcome"><a href="/dashboard/welcome">Welcome</a></li>
+        	  </ul>
+	          <ul class="nav nav-sidebar">
+	            {% if request.session.userinfo|hasPrivilege:"overview" %}
+	            	<li id="overview"><a href="/dashboard/overview">Overview</a></li>
+	            {% endif %}
+	            
+	            {% if request.session.userinfo|hasPrivilege:"role" %}
+	            	<li id="role_list"><a href="/dashboard/role/list">Role Management</a></li>
+	            {% endif %}
+	            
+	            {% if request.session.userinfo|hasPrivilege:"user" %}
+	            	<li id="user_list"><a href="/dashboard/user/list">User Management</a></li>
+	            {% endif %}
+	          </ul>
+	          <ul class="nav nav-sidebar">
+	          	{% if request.session.userinfo|hasPrivilege:"menu" %}
+	            	<li id="menu_list"><a href="/dashboard/menu/list">Menu</a></li>
+	            {% endif %}
+	            
+	            {% if request.session.userinfo|hasPrivilege:"article" %}
+	            	<li id="article"><a href="/dashboard/article/list">Article</a></li>
+	            {% endif %}
+	          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        
+        	{% if page == 'welcome' %}
+				{% include "wechat_manage/welcome.html" %}
+        	{% elif page == 'overview' %}
+        		{% include "wechat_manage/overview.html" %}
+            {% elif page == 'menu_list' %}
+        		{% include "wechat_manage/menu_list.html" %}
+        	{% elif page == 'menu_add' %}
+        		{% include "wechat_manage/menu_add.html" %}
+        	{% elif page == 'role_list' %}
+        		{% include "wechat_manage/role_list.html" %}
+        	{% elif page == 'role_add' %}
+        		{% include "wechat_manage/role_add.html" %}  
+        	{% elif page == 'user_list' %}
+        		{% include "wechat_manage/user_list.html" %}  
+        	{% elif page == 'user_add' %}
+        		{% include "wechat_manage/user_add.html" %}
+        	{% elif page == 'article_list' %}
+        		{% include "wechat_manage/article_list.html" %} 
+        	{% elif page == 'article_add' %}
+        		{% include "wechat_manage/article_add.html" %}        		       		
+           	{% endif %}           	
+        </div>
+  	   </div>
+  	 </div>
+  </body>
+</html>
+
+<script>  
+$(function(){ 
+		
+});
+</script>
+}
