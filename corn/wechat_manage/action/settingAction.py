@@ -1,6 +1,7 @@
 from wechat_manage import constDef, views
 from wechat_manage.dbop import roleOpe, projectInfoOpe, userInfoOpe
 from django.shortcuts import render
+from django.db import transaction
 
 def doCreateRole(request):
     checkList = request.POST.getlist("check_box_list")
@@ -24,12 +25,21 @@ def doCreateRole(request):
     roleOpe.saveRole(roleName, ability, userDto[constDef.CUR_PROJECTID])
     return views.showRoleListView(request)
 
+@transaction.atomic
 def doDeleteRole(request):
     checkList = request.POST.getlist("checkItem")
     for data in checkList:
         datalist = data.split(",")
         roleid = datalist[0]
         updatedate = datalist[1]
+        
+        ret = roleOpe.isRoleUsed(roleid)
+        if ret:
+            rolename = roleOpe.getRoleName(roleid)
+            ctx = {}
+            ctx['rlt'] = "Role is Used. Can not be deleted. Rolename = %s" % rolename[constDef.ROLENAME]
+            return render(request, 'wechat_manage/error.html', ctx)            
+                
         roleOpe.deleteRole(roleid, updatedate)
         
     return views.showRoleListView(request)

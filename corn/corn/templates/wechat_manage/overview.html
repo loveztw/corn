@@ -7,42 +7,18 @@
 	        <th>Public Wechat Service Name</th>
 	        <th>Appid</th>
 	        <th>secret</th>
-	        <th>Admin</th>
 	      </tr>
 	    </thead>
 	    <tbody>
 	      <tr>
-	      	<td>hello</td>
-	      	<td>12345</td>
-	      	<td>aaaabbbbcccc</td>
-	      	<td>Ray</td>
+	      	<td>{{ projectinfos.projectname }}</td>
+	      	<td>{{ projectinfos.appid }}</td>
+	      	<td>{{ projectinfos.secret }}</td>
 	      </tr>
 	    </tbody>
 	  </table>
 	</div>
 	
-<h1 class="page-header" style="margin-top: 0;">User Information</h1>
-
-	<div class="table-responsive">
-	  <table class="table table-striped">
-	    <thead>
-	      <tr>
-	        <th>User Name</th>
-	        <th>Role</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	      <tr>
-	      	<td>lee</td>
-	      	<td>op1</td>
-	      </tr>
-	      <tr>
-	      	<td>zay</td>
-	      	<td>op2</td>
-	      </tr>
-	    </tbody>
-	  </table>
-	</div>
 <script>
 $(function(){ 
 	function sidebarClick() {

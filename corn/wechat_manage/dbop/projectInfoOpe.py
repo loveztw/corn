@@ -5,8 +5,12 @@ import datetime
 from corn.util import dateUtils
 
 def getProjectInfoCount(appid):
-    rets = projectInfo.objects.filter(appid=appid)
+    rets = projectInfo.objects.filter(appid=appid, deleteflag='0')
     return len(rets)
+
+def getProjectInfo(appid):
+    return projectInfo.objects.filter(appid=appid, deleteflag='0') \
+            .values(constDef.PROJECT_ID, constDef.PROJECT_NAME, constDef.PROJECT_SECRET).first()
 
 def saveProjetInfo(name, appid, secret):
     

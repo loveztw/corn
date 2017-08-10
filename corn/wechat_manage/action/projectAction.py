@@ -1,6 +1,6 @@
 from wechat_manage.dbop import projectInfoOpe, roleOpe, userInfoOpe
 from wechat_manage import constDef
-from django.db import transaction, IntegrityError
+from django.db import transaction
 from django.http.response import HttpResponseRedirect
 from wechat_manage.dto import userInfoDto
 
@@ -38,5 +38,3 @@ def doCreateProject(request):
     request.session[constDef.SESSION_USERINFO] = userDto.toDict()
     
     return HttpResponseRedirect('/dashboard')
-
-        

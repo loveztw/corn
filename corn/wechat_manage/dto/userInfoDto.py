@@ -1,5 +1,4 @@
 from wechat_manage import constDef
-from _overlapped import NULL
 from wechat_manage.constDef import ABILITY
 
 class projectInfoDto:

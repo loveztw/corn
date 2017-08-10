@@ -18,6 +18,7 @@ PROJECT_ID = 'appid'
 PROJECT_NAME = 'projectname'
 ROLE_ID = 'roleid'
 ABILITY = 'ability'
+PROJECT_SECRET = 'secret'
 
 #db field define for userlist
 USERLIST_PROJECT_ID = 'project_id'

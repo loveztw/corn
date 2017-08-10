@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from wechat_manage.action import registerAction, projectAction, settingAction
 from wechat_manage import constDef
-from wechat_manage.dbop import roleOpe, userInfoOpe
+from wechat_manage.dbop import roleOpe, userInfoOpe, projectInfoOpe
 
 # Create your views here.
 def isLogin(request):
@@ -38,14 +38,14 @@ def dashboard(request):
     elif url == '/dashboard/menu/add':
         ctx['page'] = 'menu_add'
     elif url == '/dashboard/overview':
-        ctx['page'] = 'overview'
+        return showOvervieView(request)
     elif url == '/dashboard/role/list':
         return showRoleListView(request)
     elif url == '/dashboard/role/add':
         ctx['page'] = 'role_add'
     elif url == '/dashboard/user/list':
         return showUserListView(request)
-    elif url == '/dashboard/user/add':
+    elif url.startswith('/dashboard/user/add'):
         return showUserAddView(request)
     elif url == '/dashboard/article/list':
         ctx['page'] = 'article_list'
@@ -132,6 +132,21 @@ def showUserListView(request):
 def showUserAddView(request):
     userDto = request.session[constDef.SESSION_USERINFO]
     curPid = userDto[constDef.CUR_PROJECTID]
+    
+    mail = request.GET.get(constDef.MAIL_ADDRESS)
+    
     rolelist = roleOpe.getRoleList(curPid)
     
-    return render(request, 'wechat_manage/dashboard.html', {'page' : 'user_add', 'rolelist' : rolelist}) 
+    return render(request, 'wechat_manage/dashboard.html', {'page' : 'user_add', 
+                                                            'rolelist' : rolelist,
+                                                            'mailaddress' : mail}) 
+    
+def showOvervieView(request):
+    ctx = {'page' : 'overview'}
+    
+    userDto = request.session[constDef.SESSION_USERINFO]
+    projectinfo = projectInfoOpe.getProjectInfo(userDto[constDef.CUR_PROJECTID])
+    
+    ctx[constDef.PROJECT_INFOS] = projectinfo
+    
+    return render(request, 'wechat_manage/dashboard.html', ctx)

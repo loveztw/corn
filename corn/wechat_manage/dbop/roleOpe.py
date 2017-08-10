@@ -1,4 +1,4 @@
-from wechat_manage.models import role
+from wechat_manage.models import role, userList
 from wechat_manage import constDef
 import datetime
 from corn.util import dateUtils
@@ -12,6 +12,17 @@ def saveRole(roleName, ability, appid):
     roleinfo = role(rolename=roleName, ability=ability, project_id=appid,
                     createdate=curDate, updatedate=curDate, deleteflag="0")
     roleinfo.save()
+
+def getRoleName(roleid):
+    return role.objects.filter(id=roleid, deleteflag='0').values(constDef.ROLENAME).first()
+
+def isRoleUsed(roleid):
+    ret = userList.objects.filter(roleinfo_id=roleid, deleteflag='0')
+    count = len(ret)
+    if count != 0:
+        return True
+    
+    return False
 
 def deleteRole(roleid, updatedate):
     roleInfo = role.objects.get(id=roleid, updatedate=updatedate)
