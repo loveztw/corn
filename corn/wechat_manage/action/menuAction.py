@@ -5,7 +5,7 @@ Created on Aug 11, 2017
 '''
 from wechat_manage.dbop import projectInfoOpe, menuListOpe
 from wechat_manage import constDef, views
-import urllib, json
+import urllib.request, json
 from corn.util import common
 from wechat_manage.dto import menuDto
 from django.db import transaction
