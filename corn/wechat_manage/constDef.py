@@ -19,9 +19,17 @@ PROJECT_NAME = 'projectname'
 ROLE_ID = 'roleid'
 ABILITY = 'ability'
 PROJECT_SECRET = 'secret'
+ACCESS_TOKEN = 'accesstoken'
 
 #db field define for userlist
 USERLIST_PROJECT_ID = 'project_id'
+
+#db field define for menulist
+MENU_NAME = 'menuname'
+MENU_PARENTNAME = 'parentname'
+MENU_KEY = 'key'
+MENU_TYPE = 'type'
+MENU_URL = 'url'
 
 #role ability define
 #admin

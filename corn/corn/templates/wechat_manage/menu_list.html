@@ -7,7 +7,8 @@
 
 
 
-<form>
+<form action="/action/menudelete/" method="post">
+	{% csrf_token %}
 	<div class="table-responsive">
 	  <table class="table table-striped">
 	    <thead>
@@ -21,24 +22,40 @@
 	      </tr>
 	    </thead>
 	    <tbody>
-	      <tr>
-	      	<td>1</td>
-	      	<td>hello</td>
-	      	<td>view</td>
-	      	<td></td>
-	      	<td>key_hello</td>
-	      	<td></td>
-	      </tr>
+	    	{% for item in menulist %}
+	    	{% if item.editflag != 2 %}
+        	<tr>
+        		<td><input type="checkbox" value="{{ item.id }}" name="checkItem" /></td>
+      			<td>{{ item.no }}</td>
+      			<td>{{ item.name }}</td>
+      			<td>{{ item.type }}</td>
+      			<td>{{ item.parent }}</td>
+      			<td>{{ item.key }}</td>
+      			<td>{{ item.url }}</td>
+      		</tr>
+      		{% endif %}
+	        {% endfor %}
 	    </tbody>
 	  </table>
 	</div>
 	
 	<div class="submit">
-      <button class="btn btn-primary" type="submit">Delete</button>
+      <button class="btn btn-primary btn-sm" type="submit">Delete</button>
     </div>
 </form>
-<script>  
-$(function(){  
+<BR/>
+<form action="/action/menuapply/" method="post">
+	{% csrf_token %}
+	{% if editcount != 0 %}
+		<button class="btn btn-primary" type="submit" name="apply">Apply</button>
+		<button class="btn btn-primary" type="submit" name="cancel">Cancel</button>
+	{% else %}
+		<button class="btn btn-default" type="submit" name="apply" disabled="disabled">Apply</button>
+		<button class="btn btn-default" type="submit" name="cancel" disabled="disabled">Cancel</button>
+	{% endif %}
+</from>
+<script>
+$(function(){
 
     function initTableCheckbox() {  
         var $thr = $('table thead tr');  
@@ -58,8 +75,8 @@ $(function(){
             $(this).find('input').click();  
         });  
         var $tbr = $('table tbody tr');  
-        var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /></td>');  
-        $tbr.prepend($checkItemTd);  
+        //var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /></td>');  
+        //$tbr.prepend($checkItemTd);  
         $tbr.find('input').click(function(event){  
             $(this).parent().parent().toggleClass('warning');  
             $checkAll.prop('checked',$tbr.find('input:checked').length == $tbr.length ? true : false);  

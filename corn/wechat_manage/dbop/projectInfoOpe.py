@@ -33,4 +33,7 @@ def saveUserList(mail, pid, roleid):
                         
     userProList.save()
     
+def getAccessToken(appid):
+    return projectInfo.objects.filter(appid=appid, deleteflag='0') \
+            .values(constDef.ACCESS_TOKEN).first()    
     

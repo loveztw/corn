@@ -18,6 +18,9 @@ class projectInfo(models.Model):
     projectname = models.CharField(max_length=32)
     appid = models.CharField(max_length=64, primary_key=True)
     secret = models.CharField(max_length=64)
+    accesstoken = models.CharField(max_length=128, null=True)
+    expire = models.CharField(max_length=16, null=True)
+    tokenupdatedate = models.DateTimeField(null=True)
     createdate = models.DateTimeField()
     updatedate = models.DateTimeField()
     deleteflag = models.CharField(max_length=1)
@@ -45,4 +48,15 @@ class userList(models.Model):
     updatedate = models.DateTimeField()
     deleteflag = models.CharField(max_length=1)   
     
+class menuType(models.Model):
+    type = models.CharField(max_length=16)
+    
+class menuList(models.Model):
+    menuname = models.CharField(max_length=16)
+    parent = models.IntegerField(null=True)
+    key = models.CharField(max_length=64, null=True)
+    url = models.CharField(max_length=128, null=True)
+    menutype = models.ForeignKey(menuType)
+    project = models.ForeignKey(projectInfo)
+    editflag = models.IntegerField(null=True)
     

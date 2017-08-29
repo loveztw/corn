@@ -7,42 +7,48 @@
 
 <h1 class="page-header" style="margin-top: 0;">Menu Add</h1>
 
-      <form class="form-add">
+      <form class="form-add" action="/action/menuadd/" method="post">
+      {% csrf_token %}
         <div class="form-group">
 	        <label for="inputMenuName" class="form-label">Menu Name</label>
-	        <input type="text" id="inputMenuName" class="form-control" required autofocus>
+	        <input type="text" id="inputMenuName" name="inputMenuName" class="form-control" required autofocus>
 	    </div>
 	    
         <div class="form-group">
         	<label for="inputMenuType" class="form-label">Menu Type</label>
-        	<select class="form-control" id="inputMenuType">
-               <option value ="click">click</option>
-               <option value ="view">view</option>
-               <option value ="miniprogram">miniprogram</option>
+        	<select class="form-control" id="inputMenuType" name="inputMenuType">
+        			<option value="-1">Has Subbutton</option>
+        		{% for item in menutype %}
+              		<option value ="{{ item.id }}">{{ item.type }}</option>
+               	{% endfor %}
 			</select>
         </div>
         
         <div class="form-group">
         	<label for="inputMenuParent" class="form-label">Menu Parent</label>
-        	<select class="form-control" id="inputMenuParent">
-			  <option>1</option>
-			  <option>2</option>
+        	<select class="form-control" id="inputMenuParent" name="inputMenuParent">
+        			<option value ="-1">-</option>
+        		{% for item in menulist %}
+        		{% if not item.type %}
+			  		<option value ="{{ item.id }}">{{ item.name }}</option>
+			  	{% endif %}
+			  	{% endfor %}
 			</select>
         </div>
       
         <div class="form-group">
 	        <label for="inputMenuKey" class="form-label">Menu Key</label>
-	        <input type="text" id="inputMenuKey" class="form-control">
+	        <input type="text" id="inputMenuKey" name="inputMenuKey" class="form-control">
 	    </div>  
 
         <div class="form-group">
 	        <label for="inputMenuUrl" class="form-label">Menu Url</label>
-	        <input type="text" id="inputMenuUrl" class="form-control">
+	        <input type="text" id="inputMenuUrl" name="inputMenuUrl" class="form-control">
 	    </div>  
 		
 		<div class="submit">
-        	<button class="btn btn-primary" type="submit">Submit</button>
-        	<button class="btn btn-primary" type="submit">Cancel</button>
+        	<button class="btn btn-primary" type="submit" onclick="return checkInput()">Submit</button>
+        	<button class="btn btn-primary" onclick="javascript:history.back(-1);">Cancel</button>
         </div>
       </form>
       
@@ -55,4 +61,36 @@ $(function(){
 	
 	sidebarClick();
 });
+
+function checkInput(){
+	var menuTypeVal = $("#inputMenuType").val()
+	var menuUrl = $("#inputMenuUrl").val()
+	var menuKey = $("#inputMenuKey").val()	
+
+	if (menuTypeVal == -1) {		
+		if (menuKey != "" || menuUrl != "") {
+			alert("If the button has sub-button, please do not input key and url.")
+			return false
+		}
+	} else if (menuTypeVal == 1) {
+		if (menuUrl == "") {
+		    alert("URL is needed for view type button.")
+		    return false
+		}
+	} else if (menuTypeVal == 2) {
+		if (menuKey == "") {
+		    alert("Key is needed for click type button.")
+		    return false
+		}
+	} else if (menuTypeVal == 3) {
+		if (menuUrl == "") {
+		    alert("URL is needed for miniprogram type button.")
+		    return false
+		}
+	}
+	
+	
+	
+	return true
+}
 </script>      

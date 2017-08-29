@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
-from wechat_manage.action import registerAction, projectAction, settingAction
+from wechat_manage.action import registerAction, projectAction, settingAction,\
+    menuAction
 from wechat_manage import constDef
-from wechat_manage.dbop import roleOpe, userInfoOpe, projectInfoOpe
+from wechat_manage.dbop import roleOpe, userInfoOpe, projectInfoOpe, menuListOpe
+from wechat_manage.models import menuType
 
 # Create your views here.
 def isLogin(request):
@@ -33,27 +35,33 @@ def dashboard(request):
     
     url = request.path
     ctx = {}
-    if url == '/dashboard/menu/list':
-        ctx['page'] = 'menu_list'
-    elif url == '/dashboard/menu/add':
-        ctx['page'] = 'menu_add'
-    elif url == '/dashboard/overview':
-        return showOvervieView(request)
-    elif url == '/dashboard/role/list':
-        return showRoleListView(request)
-    elif url == '/dashboard/role/add':
-        ctx['page'] = 'role_add'
-    elif url == '/dashboard/user/list':
-        return showUserListView(request)
-    elif url.startswith('/dashboard/user/add'):
-        return showUserAddView(request)
-    elif url == '/dashboard/article/list':
-        ctx['page'] = 'article_list'
-    elif url == '/dashboard/article/add':
-        ctx['page'] = 'article_add'
-    elif url == '/dashboard/welcome' or url == '/dashboard/':
-        ctx['page'] = 'welcome'
-                                                
+    
+    try:
+        if url == '/dashboard/menu/list':
+            return showMenulistView(request)
+        elif url == '/dashboard/menu/add':
+            return showMenuAddView(request)
+        elif url == '/dashboard/overview':
+            return showOvervieView(request)
+        elif url == '/dashboard/role/list':
+            return showRoleListView(request)
+        elif url == '/dashboard/role/add':
+            ctx['page'] = 'role_add'
+        elif url == '/dashboard/user/list':
+            return showUserListView(request)
+        elif url.startswith('/dashboard/user/add'):
+            return showUserAddView(request)
+        elif url == '/dashboard/article/list':
+            ctx['page'] = 'article_list'
+        elif url == '/dashboard/article/add':
+            ctx['page'] = 'article_add'
+        elif url == '/dashboard/welcome' or url == '/dashboard/':
+            ctx['page'] = 'welcome'
+    except Exception as e:
+        ctx = {}
+        ctx['rlt'] = "Exception happened during view render: %s" % e
+        return render(request, 'wechat_manage/error.html', ctx)
+                                 
     return render(request, 'wechat_manage/dashboard.html', ctx)
 
 def normal_page(request):
@@ -101,7 +109,12 @@ def doAction(request):
                 return settingAction.doAddUserToProject(request)
             elif url == '/action/deleteuserlist/':
                 return settingAction.doDeleteUserFromProject(request)
-            
+            elif url == '/action/menuadd/':
+                return menuAction.menuAddAction(request)
+            elif url == '/action/menuapply/':
+                return menuAction.menuApplyAction(request)
+            elif url == '/action/menudelete/':
+                return menuAction.menuDeleteAction(request)
         except Exception as e:
             ctx = {}
             ctx['rlt'] = "Exception happened during action: %s" % e
@@ -150,3 +163,24 @@ def showOvervieView(request):
     ctx[constDef.PROJECT_INFOS] = projectinfo
     
     return render(request, 'wechat_manage/dashboard.html', ctx)
+
+def showMenulistView(request):
+    userDto = request.session[constDef.SESSION_USERINFO]
+    appid = userDto[constDef.CUR_PROJECTID]
+    
+    retlist = menuAction.menuListAction(request, appid)
+    editCount = menuListOpe.getEditedMenuCount(appid)
+    return render(request, 'wechat_manage/dashboard.html', {'page' : 'menu_list',
+                                                            'menulist' : retlist,
+                                                            'editcount' : editCount})
+    
+def showMenuAddView(request):
+    retlist = menuListOpe.getMenuTypeList()
+    
+    userDto = request.session[constDef.SESSION_USERINFO]
+    appid = userDto[constDef.CUR_PROJECTID]
+    menulist = menuListOpe.getMenuList(appid)
+    
+    return render(request, 'wechat_manage/dashboard.html', {'page' : 'menu_add', 
+                                                            'menutype' : retlist,
+                                                            'menulist' : menulist})   
